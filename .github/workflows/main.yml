@@ -41,7 +41,8 @@ jobs:
           distribution: temurin
           java-version: '17'
           mvn-server-credentials: |
-            ${{ vars.EXCHANGE_SERVER_ID || 'anypoint-exchange-v3' }}:CA_MAVEN_USERNAME:CA_MAVEN_PASSWORD
+            ${{ vars.EXCHANGE_SERVER_ID || 'anypoint-exchange-v3-student-deployment' }}:CA_MAVEN_USERNAME:CA_MAVEN_PASSWORD
+            anypoint-exchange-v3:CA_MAVEN_USERNAME:CA_MAVEN_PASSWORD
             releases-ee:RELEASES_EE_USERNAME:RELEASES_EE_PASSWORD
 
       - &cache-maven
@@ -127,7 +128,7 @@ jobs:
         run: |
           export CA_MAVEN_USERNAME='~~~Client~~~'
           export CA_MAVEN_PASSWORD="$CA_CLIENT_ID~?~$CA_CLIENT_SECRET"
-          mvn -B -ntp -DskipTests deploy
+          mvn -B -ntp -DskipTests clean deploy -X
 
   deploy_cloudhub:
     name: Deploy the published Mule app to CloudHub Sandbox
@@ -171,7 +172,7 @@ jobs:
           export CA_MAVEN_USERNAME='~~~Client~~~'
           export CA_MAVEN_PASSWORD="$CA_CLIENT_ID~?~$CA_CLIENT_SECRET"
           mvn -V -B -ntp \
-            -DapplicationName="check-in-app-acm-202611251115" \
+            -DapplicationName="check-in-papi-app-25nov-acm" \
             -Danypoint.platform.client_id="$ANYPOINT_PLATFORM_CLIENT_ID" \
             -Danypoint.platform.client_secret="$ANYPOINT_PLATFORM_CLIENT_SECRET" \
             -Dencrypt.key="$CLOUDHUB_ENCRYPT_KEY" \
